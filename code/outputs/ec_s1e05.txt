@@ -1,0 +1,1 @@
+s 1 eps 0.5 | conj fwd 0.22126854 rev 0.20510674 | gain fwd 0.00196602 rev 0.00674671 | gap over max 0.001966024995 | SAME on [(-inf, -1.0)]

@@ -1,0 +1,6 @@
+ball 0 [0.40000, 0.40500] diff in [0.8 +/- 0.0583]
+ball 10 [0.45000, 0.45500] diff in [0.8 +/- 0.0621]
+ball 20 [0.50000, 0.50500] diff in [0.8 +/- 0.0745]
+ball 30 [0.55000, 0.55500] diff in [0.8 +/- 0.0770]
+CERTIFIED alpha 3 Q||P: J_SAME - J_ANTI > 0 on all of [0.4, 0.6] (40 balls); min lower end [0.73738 +/- 4.58e-6]
+so int J(adaptive) - int J(Q_S||P_S) >= [0.150340 +/- 4.26e-7] at sigma 1, T 2, order 3 (rigorous)

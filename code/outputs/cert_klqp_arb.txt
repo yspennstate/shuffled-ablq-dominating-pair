@@ -1,0 +1,6 @@
+ball 0 [-1.51000, -1.50950] diff in [+/- 5.94e-4]
+ball 10 [-1.50500, -1.50450] diff in [+/- 6.01e-4]
+ball 20 [-1.50000, -1.49950] diff in [+/- 6.08e-4]
+ball 30 [-1.49500, -1.49450] diff in [+/- 6.15e-4]
+CERTIFIED KL QP: K_SAME - K_ANTI > 0 on all of [-1.51, -1.49] (40 balls); min lower end [0.00032374 +/- 1.56e-9]
+so KL(adaptive) - KL(pair) >= [6.72417e-6 +/- 3.63e-12] at sigma 1, T 2 (rigorous)

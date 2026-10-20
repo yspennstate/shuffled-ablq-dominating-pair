@@ -1,0 +1,3 @@
+ball 0 [-2.35000, -2.35000] diff in [1.3e-5 +/- 3.73e-7]
+CERTIFIED sigma 0.5 alpha 3 PQ: J_SAME - J_ANTI > 0 on all of [-2.35, -2.35] (10 balls); min lower end [1.2981e-5 +/- 4.88e-10]
+so int J(adaptive) - int J(pair) >= [2.59658e-17 +/- 2.51e-24] at sigma 0.5, T 2, order 3, PQ (rigorous)

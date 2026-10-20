@@ -1,0 +1,8 @@
+P||Q alpha 2  ANTI everywhere (the pair) 0.9514580   SAME everywhere (non-adaptive) 0.6549023   diff -2.9656e-01
+P||Q alpha 3  ANTI everywhere (the pair) 1.4701620   SAME everywhere (non-adaptive) 1.1765213   diff -2.9364e-01
+P||Q alpha 4  ANTI everywhere (the pair) 1.9857698   SAME everywhere (non-adaptive) 1.7594097   diff -2.2636e-01
+P||Q alpha 5  ANTI everywhere (the pair) 2.4940383   SAME everywhere (non-adaptive) 2.3210632   diff -1.7298e-01
+Q||P alpha 2  ANTI everywhere (the pair) 0.7941883   SAME everywhere (non-adaptive) 0.6201145   diff -1.7407e-01
+Q||P alpha 3  ANTI everywhere (the pair) 1.1263270   SAME everywhere (non-adaptive) 1.0840549   diff -4.2272e-02
+Q||P alpha 4  ANTI everywhere (the pair) 1.4336567   SAME everywhere (non-adaptive) 1.6279509   diff +1.9429e-01
+Q||P alpha 5  ANTI everywhere (the pair) 1.7252811   SAME everywhere (non-adaptive) 2.1813793   diff +4.5610e-01

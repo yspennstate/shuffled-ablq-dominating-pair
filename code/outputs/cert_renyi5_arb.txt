@@ -1,0 +1,6 @@
+ball 0 [-3.50200, -3.50196] diff >= [0.94451 +/- 7.82e-7]
+ball 25 [-3.50100, -3.50096] diff >= [0.94629 +/- 4.16e-6]
+ball 50 [-3.50000, -3.49996] diff >= [0.94809 +/- 4.56e-6]
+ball 75 [-3.49900, -3.49896] diff >= [0.94989 +/- 2.84e-6]
+CERTIFIED alpha 5: J_SAME - J_ANTI > 0 on all of [-3.502, -3.498] (100 balls); min lower end [0.94451 +/- 7.82e-7]
+so int J(adaptive) - int J(P_S||Q_S) >= [0.00379223 +/- 2.66e-9] at sigma 1, T 2, order 5 (rigorous)

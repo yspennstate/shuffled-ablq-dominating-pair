@@ -1,0 +1,2 @@
+T=3 s 1.00 eps 0.50 N 121 M 401 P||Q conj 0.207611 adaptive 0.210464 gain +2.853e-03 (step-2 switch at 117 of 121 g1)
+T=3 s 1.00 eps 0.50 N 121 M 401 Q||P conj 0.181196 adaptive 0.189757 gain +8.562e-03 (step-2 switch at 112 of 121 g1)

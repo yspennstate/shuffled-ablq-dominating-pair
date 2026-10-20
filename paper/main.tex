@@ -1,0 +1,303 @@
+\documentclass[11pt]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype,amsmath,amssymb,amsthm,mathtools,enumitem,booktabs}
+\usepackage[margin=1.1in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\usepackage[capitalise,nameinlink]{cleveref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\R}{\mathbb R}
+\newcommand{\N}{\mathcal N}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Ball}{\mathbb B}
+\newcommand{\ANTI}{\mathrm{A}}
+\newcommand{\SAME}{\mathrm{S}}
+\newcommand{\He}{H_{e^{\varepsilon}}}
+
+\hypersetup{pdftitle={The conjectured dominating pair for shuffled ABLQ is not dominating},pdfauthor={Yitzchak Shmalo}}
+
+\title[The conjectured pair for shuffled ABLQ is not dominating]{The conjectured dominating pair for DP-SGD with shuffled batches is not dominating}
+\author{Yitzchak Shmalo}
+\address{Einstein Institute of Mathematics, The Hebrew University of Jerusalem, Jerusalem, Israel}
+\email{yitzchak.shmalo@gmail.com}
+
+\subjclass[2020]{68P27, 62B10, 94A17, 60E15}
+\keywords{differential privacy, DP-SGD, shuffling, dominating pair, hockey-stick divergence, R\'enyi divergence, adaptive composition, interval arithmetic}
+
+\begin{document}
+
+\begin{abstract}
+Chua, Ghazi, Kamath, Kumar, Manurangsi, Sinha and Zhang conjectured that the pair of Gaussian mixtures $P_{\mathcal S}=\frac1T\sum_t\N(2e_t,\sigma^2I)$, $Q_{\mathcal S}=\frac1T\sum_t\N(e_t,\sigma^2I)$ tightly dominates the adaptive batch linear query mechanism with shuffled batches, for every adaptive query method. We show that the conjecture fails for every number of steps $T\ge2$ and every batch size. The query method that breaks it answers as the conjectured worst case at every step but the last, and at the last step changes the query when the earlier outputs suggest that the differing record was in an early batch. At $T=2$, $\sigma=1$ and $\varepsilon=\frac12$ its hockey-stick divergence is $0.22323$ against $0.22127$ for the conjectured pair, and an interval-arithmetic certificate bounds the excess below by $1.04\cdot10^{-4}$. A certificate at $T=3$ and a reduction to a function of two variables give strict failure at every $T\ge3$. The same query method also beats the pair in Kullback--Leibler divergence and in R\'enyi divergence of every order we tested, from $\frac14$ to $5$, in both directions.
+\end{abstract}
+\maketitle
+
+\section{Introduction}
+
+DP-SGD is usually analysed as if every batch were drawn by Poisson subsampling, while implementations mostly shuffle the data and cut it into batches of a fixed size. Chua, Ghazi, Kamath, Kumar, Manurangsi, Sinha and Zhang~\cite{CGKKMSZ24} studied the gap between the two through the adaptive batch linear query mechanism $\mathrm{ABLQ}$, which isolates what the gradient steps release. For Poisson subsampling and for the deterministic batch sampler the worst case over adaptive query methods is known exactly. For the shuffle sampler $\mathcal S$ they gave the pair
+\begin{equation}\label{eq:pair}
+P_{\mathcal S}=\frac1T\sum_{t=1}^T\N(2e_t,\sigma^2I_T),\qquad Q_{\mathcal S}=\frac1T\sum_{t=1}^T\N(e_t,\sigma^2I_T),
+\end{equation}
+which is realised by a non-adaptive query method and so gives lower bounds on the privacy loss of $\mathrm{ABLQ}_{\mathcal S}$, and they conjectured that these lower bounds are tight.
+
+\begin{conjecture}[{\cite[Conjecture~3.2]{CGKKMSZ24}}]\label{conj:CGKKMSZ}
+The pair $(P_{\mathcal S},Q_{\mathcal S})$ tightly dominates $\mathrm{ABLQ}_{\mathcal S}$ for all adaptive query methods $\mathcal A$.
+\end{conjecture}
+
+The conjecture is restated as open by van Dijk and Ertan~\cite[Appendix~J]{vDE26}, who show that the smaller pair $(\N(0,I),\frac1M\sum_j\N(e_j,I))$ does not dominate the shuffled mechanism; their example is non-adaptive and does not bear on \cref{conj:CGKKMSZ}. Random allocation, a different sampler that also fixes how many steps each record takes part in, is analysed by Feldman and Shenfeld~\cite{FS25}.
+
+We show that \cref{conj:CGKKMSZ} is false.
+
+\begin{theorem}\label{thm:main}
+Let $\sigma=1$ and $\varepsilon=\frac12$. For every $T\ge2$, every batch size $b\ge1$ and every dimension $d\ge1$ there are an adaptive query method $\mathcal A$ and zero-out adjacent datasets $x\to_z x'$ with
+\[
+\He\bigl(\mathrm{ABLQ}_{\mathcal S}(x)\,\big\|\,\mathrm{ABLQ}_{\mathcal S}(x')\bigr)>\He(P_{\mathcal S}\|Q_{\mathcal S}).
+\]
+At $T=2$ the excess is at least $1.04\cdot10^{-4}$ and at $T=3$ at least $2.25\cdot10^{-5}$.
+\end{theorem}
+
+Numerically, at $T=2$ the left side is $0.223234$ and $\He(P_{\mathcal S}\|Q_{\mathcal S})=0.221269$; the reverse orientation $\He(Q_{\mathcal S}\|P_{\mathcal S})=0.205107$ is smaller still, so the example also breaks a symmetric reading of domination. On a grid of non-adaptive query methods the best one is the conjectured one, so the gain comes from adaptivity.
+
+The query method is simple. All records but one hold the same value $w$, the remaining record holds $u$ in $x$ and $\bot$ in $x'$. At every step the conjectured method asks for $+1$ on $u$ and $-1$ on $w$. Our method does the same at steps $1,\dots,T-1$ and, when the outputs so far point to the record having been in one of the early batches, asks for $+1$ on both $u$ and $w$ at step $T$. \Cref{sec:setup} sets up the mechanism and reduces the effect of such a switch to one function $\Delta$ of two variables, the same for every $T$. \Cref{sec:T2} proves the case $T=2$ and \cref{sec:allT} the cases $T\ge3$. \Cref{sec:renyi} treats Kullback--Leibler and R\'enyi divergences, and \cref{sec:numerics} records numerical values for larger $T$, other $\sigma$ and other $\varepsilon$.
+
+Chua et al.\ note that their results do not rely on the conjecture, since the pair~\eqref{eq:pair} is used only for lower bounds; those bounds stand. What changes is that the gap between $\mathrm{ABLQ}_{\mathcal S}$ and Poisson subsampling is at least slightly larger than the pair shows, and that the exact privacy of one shuffled epoch is again open.
+
+\section{Setup and the last-step switch}\label{sec:setup}
+
+\subsection{The mechanism}
+A dataset is $x=(x_1,\dots,x_n)$ with $x_i\in\mathcal X\cup\{\bot\}$ and $n=bT$. The shuffle sampler draws a uniformly random permutation $\pi$ of $[n]$ and sets $S_t=\{\pi((t-1)b+1),\dots,\pi(tb)\}$. An adaptive query method $\mathcal A$ maps the earlier outputs to a query $\psi_t=\mathcal A(g_1,\dots,g_{t-1};\cdot)\colon\mathcal X\to\Ball^d$, the closed unit ball, with $\psi_t(\bot)=0$, and
+\[
+g_t=\sum_{i\in S_t}\psi_t(x_i)+\xi_t,\qquad \xi_t\sim\N(0,\sigma^2I_d)\ \text{independent}.
+\]
+$\mathrm{ABLQ}_{\mathcal S}(x)$ is the law of $(g_1,\dots,g_T)$. Datasets are zero-out adjacent, $x\to_z x'$, if they agree except at one index $i$, where $x_i\in\mathcal X$ and $x'_i=\bot$.
+
+For $\gamma\ge0$ the hockey-stick divergence of probability measures with densities $p,q$ is $H_\gamma(P\|Q)=\int(p-\gamma q)_+$. Following~\cite[Definition~2.3]{CGKKMSZ24}, a pair $(P,Q)$ dominates a pair $(A,B)$ if $\He(P\|Q)\ge\He(A\|B)$ for all $\varepsilon\in\R$; it dominates a mechanism $M$ if it dominates $(M(x),M(x'))$ for all $x\to_z x'$, and it does so tightly if in addition it is dominated by $(M(x),M(x'))$ for some such pair. To refute \cref{conj:CGKKMSZ} it suffices to exhibit one $\mathcal A$, one adjacent pair and one $\varepsilon$ with $\He(M(x)\|M(x'))>\He(P_{\mathcal S}\|Q_{\mathcal S})$.
+
+\subsection{The datasets and the two queries}
+We work with $d=1$; for $d>1$ put the queries on the first coordinate and the others carry pure noise. Let $\mathcal X=\{u,w\}$, let $x$ have $x_1=u$ and $x_j=w$ for $j\ge2$, and let $x'$ have $x'_1=\bot$ and $x'_j=w$ for $j\ge2$. Two queries are used:
+\[
+\ANTI:\ \psi(u)=+1,\ \psi(w)=-1,\qquad\qquad \SAME:\ \psi(u)=\psi(w)=+1 .
+\]
+Write $z_t=g_t-b\,\psi_t(w)$; the method knows $\psi_t(w)$, so $z_t$ is a function of its own outputs. If the record is not in $S_t$, then $S_t$ holds $b$ copies of $w$ and $z_t\sim\N(0,\sigma^2)$ under both datasets. If it is, then
+\[
+z_t\sim\N(2,\sigma^2)\ \text{under }x,\quad z_t\sim\N(1,\sigma^2)\ \text{under }x'\qquad\text{for }\ANTI,
+\]
+\[
+z_t\sim\N(0,\sigma^2)\ \text{under }x,\quad z_t\sim\N(-1,\sigma^2)\ \text{under }x'\qquad\text{for }\SAME .
+\]
+The batch size has dropped out. Since $\pi$ is uniform, the record lies in each batch with probability $1/T$, and given the batch the noise terms are independent.
+
+\begin{lemma}\label{lem:pair}
+If $\mathcal A$ asks $\ANTI$ at every step, the law of $(z_1,\dots,z_T)$ is $P_{\mathcal S}$ under $x$ and $Q_{\mathcal S}$ under $x'$.
+\end{lemma}
+
+\begin{proof}
+Given that the record lies in $S_t$, the vector $z$ is $\N(2e_t,\sigma^2I_T)$ under $x$ and $\N(e_t,\sigma^2I_T)$ under $x'$. Average over $t$.
+\end{proof}
+
+The map $g\mapsto z$ is a translation fixed by the method, so it changes no divergence.
+
+\subsection{The last-step switch}
+Let $m=T-1$, write $\phi$ for the $\N(0,\sigma^2)$ density and, for $y\in\R^m$,
+\begin{equation}\label{eq:weights}
+\alpha(y)=\frac1T\sum_{t=1}^m\phi(y_t-2)\prod_{s\ne t}\phi(y_s),\quad
+\gamma(y)=\frac1T\sum_{t=1}^m\phi(y_t-1)\prod_{s\ne t}\phi(y_s),\quad
+\beta(y)=\frac1T\prod_{t=1}^m\phi(y_t).
+\end{equation}
+For $a,c\in\R$ and $\alpha,\beta,\gamma\ge0$ set
+\[
+I_{a,c}(\alpha,\beta,\gamma)=\int_\R\Bigl(\alpha\phi(s)+\beta\phi(s-a)-e^{\varepsilon}\bigl(\gamma\phi(s)+\beta\phi(s-c)\bigr)\Bigr)_+\,ds,
+\]
+and write $I_{\ANTI}=I_{2,1}$, $I_{\SAME}=I_{0,-1}$.
+
+\begin{lemma}\label{lem:switch}
+Let $\mathcal A_S$ ask $\ANTI$ at steps $1,\dots,m$ and, at step $T$, ask $\SAME$ if $(z_1,\dots,z_m)\in S$ and $\ANTI$ otherwise, where $S\subseteq\R^m$ is Borel. Then
+\[
+\He\bigl(M(x)\|M(x')\bigr)=\He(P_{\mathcal S}\|Q_{\mathcal S})+\int_S\bigl(I_{\SAME}-I_{\ANTI}\bigr)\bigl(\alpha(y),\beta(y),\gamma(y)\bigr)\,dy .
+\]
+\end{lemma}
+
+\begin{proof}
+Condition on the batch of the record. If it is $S_t$ with $t\le m$, the prefix $y=(z_1,\dots,z_m)$ has density $\phi(y_t-2)\prod_{s\ne t}\phi(y_s)$ under $x$ and $\phi(y_t-1)\prod_{s\ne t}\phi(y_s)$ under $x'$, and $z_T\sim\N(0,\sigma^2)$ whatever is asked at step $T$. If it is $S_T$, the prefix has density $\prod\phi(y_s)$ under both datasets and $z_T$ has density $\phi(\cdot-a)$ under $x$ and $\phi(\cdot-c)$ under $x'$, with $(a,c)=(2,1)$ for $\ANTI$ and $(0,-1)$ for $\SAME$. So the joint densities are
+\[
+p(y,s)=\alpha(y)\phi(s)+\beta(y)\phi(s-a(y)),\qquad q(y,s)=\gamma(y)\phi(s)+\beta(y)\phi(s-c(y)),
+\]
+with $(a(y),c(y))$ fixed by whether $y\in S$. Integrating $(p-e^\varepsilon q)_+$ first in $s$ gives
+\[
+\He\bigl(M(x)\|M(x')\bigr)=\int I_{a(y),c(y)}\bigl(\alpha(y),\beta(y),\gamma(y)\bigr)\,dy .
+\]
+With $S=\emptyset$ this is $\He(P_{\mathcal S}\|Q_{\mathcal S})$ by \cref{lem:pair}, and the difference is the integral over $S$.
+\end{proof}
+
+The best $S$ is therefore $\{I_{\SAME}>I_{\ANTI}\}$, and the conjecture fails as soon as this set has positive measure.
+
+\subsection{Two variables}
+$I_{a,c}$ is positively homogeneous of degree one in $(\alpha,\beta,\gamma)$. At $\sigma=1$ put $x_t=e^{y_t-1/2}$; then $\phi(y_t-2)/\phi(y_t)=e^{-1}x_t^2$ and $\phi(y_t-1)/\phi(y_t)=x_t$, so
+\begin{equation}\label{eq:AG}
+\frac{\alpha}{\beta}=A:=e^{-1}\sum_{t=1}^m x_t^2,\qquad \frac{\gamma}{\beta}=G:=\sum_{t=1}^m x_t,
+\end{equation}
+and
+\begin{equation}\label{eq:Delta}
+\bigl(I_{\SAME}-I_{\ANTI}\bigr)(\alpha,\beta,\gamma)=\beta\,\Delta(A,G),\qquad \Delta(A,G):=I_{\SAME}(A,1,G)-I_{\ANTI}(A,1,G).
+\end{equation}
+The function $\Delta$ does not depend on $T$; only the set of $(A,G)$ that the prefix can reach does. For $m=1$ it is the curve $eA=G^2$. For $m\ge2$, since $x_t>0$,
+\begin{equation}\label{eq:region}
+\frac{G^2}{m}\le eA<G^2,
+\end{equation}
+with equality on the left only when all $x_t$ are equal. Conversely every point of $\{G^2/m<eA<G^2\}$ is reached: on the open simplex $\{x\in(0,\infty)^m:\sum x_t=G\}$ the function $\sum x_t^2$ is continuous, equals $G^2/m$ at the centre and tends to $G^2$ at a vertex, and the simplex is connected.
+
+\section{Two steps}\label{sec:T2}
+
+At $T=2$ the prefix is $y=z_1$, and with $\sigma=1$, $\varepsilon=\frac12$, $\alpha=\frac12\phi(z_1-2)$, $\gamma=\frac12\phi(z_1-1)$, $\beta=\frac12\phi(z_1)$. Both inner integrals have closed forms. Dividing the integrand of $I_{\ANTI}$ by $\phi(s)$ and writing $\tau=e^{s}$, the set where it is positive is
+\[
+\{\beta e^{-2}\tau^2-\beta\tau+(\alpha-\sqrt e\,\gamma)>0\},
+\]
+an interval condition on the roots of a quadratic in $\tau$; for $I_{\SAME}$ the same steps give $\{(\alpha-\sqrt e\,\gamma+\beta)\,\tau>\beta\}$, which is linear. On each interval the integral of $p-e q$ is a combination of values of the normal distribution function, so $I_{\ANTI}$ and $I_{\SAME}$ are explicit functions of $z_1$. At $z_1=2.5$,
+\[
+I_{\ANTI}=0.0635779652453,\qquad I_{\SAME}=0.0641560879254,
+\]
+and the difference $5.78\cdot10^{-4}$ is positive. Numerically $I_{\SAME}>I_{\ANTI}$ exactly for $z_1$ between about $2.005$ and $12$, that is, when the first output already says that the record was probably in the first batch.
+
+\begin{theorem}\label{thm:T2}
+At $T=2$, $\sigma=1$, $\varepsilon=\frac12$ and every batch size, the method $\mathcal A_S$ with $S=[2.1,2.6]$ satisfies
+\[
+\He\bigl(M(x)\|M(x')\bigr)\ge\He(P_{\mathcal S}\|Q_{\mathcal S})+1.04\cdot10^{-4}.
+\]
+\end{theorem}
+
+\begin{proof}
+By \cref{lem:switch} it is enough to show $\int_{2.1}^{2.6}(I_{\SAME}-I_{\ANTI})\,dz_1\ge1.04\cdot10^{-4}$. We evaluate the closed forms in ball arithmetic (Arb~\cite{Joh17} through python-flint, $200$ bits) on $5000$ balls covering $[2.1,2.6]$. For each ball the roots of the quadratic, the interval endpoints and the normal distribution values are enclosed, and the resulting enclosure of $I_{\SAME}-I_{\ANTI}$ has lower end at least $2.0828\cdot10^{-4}$. Multiplying by the length $0.5$ gives the bound. As controls, the same code refuses the interval $[1.5,1.9]$, where $\SAME$ loses by about $7\cdot10^{-3}$, and returns no verdict on balls near $z_1=2$, where the coefficient $\alpha-\sqrt e\,\gamma+\beta$ vanishes.
+\end{proof}
+
+The theorem proves \cref{thm:main} at $T=2$. Taking at each $z_1$ the better of $\ANTI$ and $\SAME$ gives $0.223234$, against $0.221269$ for the pair; allowing any of the $81$ answers $(\psi_2(u),\psi_2(w))\in\{-1,-\frac34,\dots,1\}^2$ at step $2$ moves this only in the fifth digit ($0.22324$ on the finer of two grids); on a $9^4$ grid of non-adaptive pairs of queries $(\psi_1(u),\psi_1(w),\psi_2(u),\psi_2(w))\in\{-1,-\frac34,\dots,1\}^4$ the largest divergence is the pair's, $0.221273$ on that grid.
+
+\section{Every number of steps}\label{sec:allT}
+
+\begin{proposition}\label{prop:T3}
+Let $B=[-0.3,0.1]\times[2.2,2.3]$. At $\sigma=1$, $\varepsilon=\frac12$ and $T=3$, $(I_{\SAME}-I_{\ANTI})(\alpha(y),\beta(y),\gamma(y))>0$ for every $y\in B$, and
+\[
+\int_B\bigl(I_{\SAME}-I_{\ANTI}\bigr)(\alpha,\beta,\gamma)\,dy\ge2.25\cdot10^{-5}.
+\]
+\end{proposition}
+
+\begin{proof}
+As at $T=2$, the set where the integrand of $I_{a,c}$ is positive is read off a quadratic in $\tau=e^{s}$, and $I_{a,c}$ is a sum of differences of normal distribution values. The closed form is evaluated in Arb at $128$ bits on $21{,}539$ boxes covering $B$, obtained by splitting a box in four while its enclosure contains zero. Every box gives a positive lower end, the smallest $9.91\cdot10^{-8}$, and summing lower end times area gives the bound. At $y=(-0.1,2.25)$ the difference is $1.535260930\cdot10^{-3}$, which an independent quadrature reproduces to twelve digits.
+\end{proof}
+
+\begin{theorem}\label{thm:allT}
+At $\sigma=1$ and $\varepsilon=\frac12$, for every $T\ge3$ and every batch size there is a Borel set $S_T\subseteq\R^{T-1}$ of positive measure such that
+\[
+\He\bigl(M(x)\|M(x')\bigr)>\He(P_{\mathcal S}\|Q_{\mathcal S})\qquad\text{for }\mathcal A_{S_T}.
+\]
+\end{theorem}
+
+\begin{proof}
+Let $F_m\colon\R^m\to\R^2$ send $y$ to $(A,G)$ of~\eqref{eq:AG}. For $m=2$ its Jacobian determinant in the variables $x_1,x_2$ is $2e^{-1}(x_1-x_2)$, and on $B$ we have $x_2/x_1=e^{y_2-y_1}\ge e^{2.1}$, so $F_2$ is a local diffeomorphism on the interior of $B$ and $U=F_2(\operatorname{int}B)$ is a nonempty open set. By \cref{prop:T3} and~\eqref{eq:Delta}, $\Delta>0$ on $U$. On $B$ the ratio $eA/G^2=(1+r^2)/(1+r)^2$ with $r=x_2/x_1\in[e^{2.1},e^{2.6}]$ lies in $[0.806,0.871]$, so $U\subseteq\{G^2/2<eA<G^2\}\subseteq\{G^2/m<eA<G^2\}$ for every $m\ge2$. By the remark after~\eqref{eq:region}, $S_T=F_m^{-1}(U)$ with $m=T-1$ is nonempty; it is open since $F_m$ is continuous, so it has positive measure. On $S_T$ the integrand of \cref{lem:switch} is $\beta\Delta>0$, and the integral is positive.
+\end{proof}
+
+\Cref{thm:T2,thm:allT} together give \cref{thm:main}. The proof of \cref{thm:allT} gives no explicit constant for $T\ge4$; \cref{sec:numerics} lists the numerical size of the gain.
+
+\section{Kullback--Leibler and R\'enyi divergences}\label{sec:renyi}
+
+For $\alpha\in(0,1)\cup(1,\infty)$ write $D_\alpha(P\|Q)=\frac1{\alpha-1}\log\int p^\alpha q^{1-\alpha}$ and $D_{\mathrm{KL}}(P\|Q)=\int p\log(p/q)$. At $T=2$ the step-$2$ answer at $z_1$ changes only the slice $p(z_1,\cdot),q(z_1,\cdot)$, so as in \cref{lem:switch}
+\[
+\int p^\alpha q^{1-\alpha}=\int J_\alpha(z_1)\,dz_1,\qquad D_{\mathrm{KL}}=\int K(z_1)\,dz_1,
+\]
+with $J_\alpha$ and $K$ the inner integrals over $z_2$ for the answer chosen at $z_1$. For $\alpha>1$ a larger $\int J_\alpha$ is a larger $D_\alpha$, for $\alpha<1$ a smaller one. So a switch to $\SAME$ on an interval where $J_\alpha^{\SAME}-J_\alpha^{\ANTI}$ has the right sign, or where $K^{\SAME}>K^{\ANTI}$, beats the pair, and an Arb enclosure of the difference on balls covering the interval proves it. The inner integrals are computed with Arb's rigorous integration on a bounded interval, about thirty noise scales on each side, and the tails are bounded by explicit Gaussian tails; for non-integer $\alpha$ the power is taken in Arb's analytic mode, so a ball that meets the branch cut gives no verdict and is subdivided. \Cref{tab:renyi} lists the certified excesses at $\sigma=1$ for the orientation $(M(x)\|M(x'))$ against $(P_{\mathcal S}\|Q_{\mathcal S})$, which we call $P\|Q$, and for $(M(x')\|M(x))$ against $(Q_{\mathcal S}\|P_{\mathcal S})$, called $Q\|P$.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{lll}
+\toprule
+divergence & certified excess, $P\|Q$ & certified excess, $Q\|P$\\
+\midrule
+KL & $9.97\cdot10^{-6}$ & $6.72\cdot10^{-6}$\\
+order $1/4$ & $9.42\cdot10^{-6}$ & $9.57\cdot10^{-6}$\\
+order $1/2$ & $1.52\cdot10^{-5}$ & $1.52\cdot10^{-5}$\\
+order $3/4$ & $9.57\cdot10^{-6}$ & $9.42\cdot10^{-6}$\\
+order $3/2$ & $9.21\cdot10^{-6}$ & $2.30\cdot10^{-5}$\\
+order $2$ & $3.22\cdot10^{-5}$ & $1.58\cdot10^{-3}$\\
+order $5/2$ & $7.14\cdot10^{-5}$ & $1.80\cdot10^{-3}$\\
+order $3$ & $2.21\cdot10^{-4}$ & $0.150$\\
+order $4$ & $1.40\cdot10^{-3}$ & \\
+order $5$ & $3.79\cdot10^{-3}$ & \\
+\bottomrule
+\end{tabular}
+\medskip
+\caption{Certified lower bounds at $T=2$, $\sigma=1$ for the excess of the adaptive switch over the pair: in $D_{\mathrm{KL}}$, and in $\pm\int p^\alpha q^{1-\alpha}$ for R\'enyi order $\alpha$ (the sign that increases $D_\alpha$). The switch interval is chosen per row and is recorded with each certificate.}
+\label{tab:renyi}
+\end{table}
+
+Three remarks on the table. First, for $\alpha<1$ the integral $\int p^\alpha q^{1-\alpha}$ is symmetric under $(P,Q,\alpha)\mapsto(Q,P,1-\alpha)$, and this holds slice by slice, so the $P\|Q$ entry at order $\frac14$ is the $Q\|P$ entry at order $\frac34$. If one compares instead with the larger of the pair's two orientations, the switch wins at order $\frac12$ in both orientations, at order $\frac14$ only in $Q\|P$ and at order $\frac34$ only in $P\|Q$. Second, the large $Q\|P$ entries at high order are not all adaptivity: at orders $4$ and $5$ the fixed query $\SAME$ at step $2$, which uses no information from step $1$, already beats the pair in $Q\|P$. The order-$3$ entry is adaptive, since there the pair beats the fixed query $\SAME$; in $P\|Q$ the pair beats the fixed $\SAME$ at every order and the whole gain is adaptive. Third, van Dijk and Ertan~\cite[Appendix~J]{vDE26} compute $\chi^2(P_{\mathcal S}\|Q_{\mathcal S})=1.5895$ at $T=2$, $\sigma=1$, and our grid gives $1.589482$ for the pair and $1.591212$ for the best switch. They also use the identity $\chi^2(P\|Q)+1=2\int_0^\infty H_\lambda(P\|Q)\,d\lambda$; through it the order-$2$ certificate is a second proof that the pair fails to dominate in hockey-stick divergence for some $\varepsilon$.
+
+The same certificates were run at $\sigma=\frac12$ and $\sigma=2$ for KL and the orders $\frac14,\frac12,\frac34,2,3$ in both orientations, and every one is positive. At $\sigma=2$ the bounds are of order $10^{-5}$ to $10^{-4}$. At $\sigma=\frac12$ the gains in $P\|Q$ are small (the grid gives $2.8\cdot10^{-8}$ in KL) and the certified bounds smaller still, $1.9\cdot10^{-14}$ in KL, because the enclosure loses roughly in proportion to the ball width and only very short intervals certify.
+
+\section{Numerical values}\label{sec:numerics}
+
+All values in this section are numerical. At $T=3$, $\sigma=1$, $\varepsilon=\frac12$ the optimum over methods that may switch at both step $2$ and step $3$, with answers in $\{-1,1\}^2$, computed as a nested pointwise maximum on a grid, is $0.210464$, against $0.207611$ for the pair (Monte Carlo $0.207652\pm0.000143$). The reverse orientation of the pair gives $0.18142$.
+
+For larger $T$ we computed the gain of the last-step switch alone, $\frac1T\E_{y\sim\N(0,I_m)}\Delta(A(y),G(y))_+$ by~\eqref{eq:Delta}, by Monte Carlo with $2\cdot10^6$ prefixes (\cref{tab:T}). Switching at earlier steps as well can only increase the divergence.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{rll}
+\toprule
+$T$ & $\He(P_{\mathcal S}\|Q_{\mathcal S})$ & gain of the last-step switch\\
+\midrule
+$2$ & $0.22127$ (exact) & $1.966\cdot10^{-3}$ (exact)\\
+$3$ & $0.20761$ & $1.910\cdot10^{-3}$\\
+$4$ & $0.1937$ & $1.646\cdot10^{-3}$\\
+$8$ & $0.1631$ & $8.84\cdot10^{-4}$\\
+$16$ & $0.1290$ & $3.71\cdot10^{-4}$\\
+$32$ & $0.0959$ & $1.27\cdot10^{-4}$\\
+\bottomrule
+\end{tabular}
+\medskip
+\caption{$\sigma=1$, $\varepsilon=\frac12$. Monte Carlo standard errors are below $1\%$ of the gain; for $T\ge4$ the pair's value carries an error between $0.0008$ and $0.0022$.}
+\label{tab:T}
+\end{table}
+
+At $T=2$ the gain is positive in every cell of $\sigma\in\{\frac12,1,2\}\times\varepsilon\in\{0.1,1,2,3\}$, the smallest being $5.2\cdot10^{-13}$ at $\sigma=2$, $\varepsilon=3$, where $\He(P_{\mathcal S}\|Q_{\mathcal S})$ itself is $2.3\cdot10^{-10}$. At $\varepsilon=0.1$ and $\sigma=\frac12$ the last-step gain stays near $10^{-4}$ up to $T=16$ and then falls roughly like $1/T$ ($5.3\cdot10^{-6}$ at $T=512$). A heuristic reason: with $\sigma=\frac12$ the variables $x_t=e^{(y_t-1/2)/\sigma^2}$ have $\E x_t^2=e^{1/\sigma^2}\approx55$, so while $m$ is well below that one term dominates $G$, the prefix lands in the same part of the region~\eqref{eq:region} whatever $T$ is, and the factor $1/T$ in $\beta$ is offset.
+
+\section{Computations}\label{sec:checks}
+
+{\sloppy The repository~\cite{code} contains the scripts and their outputs. \texttt{cert\_t2\_arb.py} and \texttt{cert\_t3\_arb.py} carry out the certificates of \cref{thm:T2,prop:T3}; \texttt{cert\_chi2\_arb.py}, \texttt{cert\_kl\_arb\_sigma.py}, \texttt{cert\_renyi\_arb\_sigma.py}, \texttt{cert\_renyi\_real\_arb\_sigma.py} and \texttt{cert\_renyi\_sub1\_arb\_sigma.py} those of \cref{sec:renyi}, each subdividing an interval into balls, with every sub-ball built from exact endpoints so that the balls cover the interval. \texttt{exact\_closed.py} evaluates the closed forms of \cref{sec:T2} to $30$ digits and \texttt{t2b1\_adaptive.py}, \texttt{nonadaptive.py}, \texttt{t3\_dp.py}, \texttt{tgen\_mc.py} and \texttt{renyi\_alpha\_grid.py} produce the numerical values. \texttt{independent\_check.py} recomputes the $T=2$ values $0.221269$, $0.223234$ and $0.205107$ and the point values at $z_1=2.5$ and $y=(-0.1,2.25)$ with plain quadrature, sharing no code with the others. The scripts need Python~3 with numpy, scipy, mpmath and python-flint.\par}
+
+\section*{Acknowledgements and funding}
+The research presented in this paper was supported by the European Research
+Council (ERC) under the European Union's Horizon Europe research and
+innovation programme (grant agreement No.~101041711), by the Simons
+Foundation as part of the Collaboration on the Mathematical and Scientific
+Foundations of Deep Learning, by Heights Labs, by Convex Nexus Capital, by
+the Israel Science Foundation (grant number 2258/19), and by the Israel
+Science Foundation (ISF Grant 4101/25).
+
+\section*{Declaration of competing interest}
+The author holds equity in Heights Labs and in Convex Nexus Capital and
+has a management role at Convex Nexus Capital. These entities are included
+in the funding declaration above.
+
+\section*{Declaration of generative AI and AI-assisted technologies}
+The paper comes out of Math Brain, an ongoing project on the use of AI systems for research mathematics. On 19 October 2026 a Claude agent (Anthropic), working in Claude Code, found the last-step switch, the reduction of \cref{sec:setup}, the certificates of \cref{thm:T2,prop:T3} and those of \cref{sec:renyi}; two further Claude agents checked each certificate with code of their own. On 20 October 2026 Claude Opus~5.5, working in Claude Code, recomputed the main values independently and wrote the paper. The author directed the work and is responsible for the content of the paper and for decisions concerning its dissemination.
+
+\section*{Data availability}
+No data were used. The code is available at\\ \url{https://github.com/yspennstate/shuffled-ablq-dominating-pair}.
+
+\begin{thebibliography}{9}
+\bibitem{CGKKMSZ24} L.~Chua, B.~Ghazi, P.~Kamath, R.~Kumar, P.~Manurangsi, A.~Sinha and C.~Zhang, \emph{How private are DP-SGD implementations?}, Proceedings of the 41st International Conference on Machine Learning (ICML 2024); arXiv:2403.17673.
+\bibitem{FS25} V.~Feldman and M.~Shenfeld, \emph{Privacy amplification by random allocation}, arXiv:2502.08202 (2025).
+\bibitem{Joh17} F.~Johansson, \emph{Arb: efficient arbitrary-precision midpoint-radius interval arithmetic}, IEEE Trans. Comput. \textbf{66} (2017), 1281--1292.
+\bibitem{vDE26} M.~van Dijk and M.~B.~Ertan, \emph{Trade-off functions for DP-SGD with subsampling based on random allocation: tight upper and lower bounds}, arXiv:2605.06259v3 (2026).
+\bibitem{code} Y.~Shmalo, \emph{Code for this paper}, \url{https://github.com/yspennstate/shuffled-ablq-dominating-pair}.
+\end{thebibliography}
+
+\end{document}

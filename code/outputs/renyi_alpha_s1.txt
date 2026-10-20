@@ -1,0 +1,20 @@
+s 1.00 P||Q alpha 1    conj 0.4519006 adaptive 0.4525189 gain +6.183e-04  SAME on [-12.0, -1.0600000000000005]
+s 1.00 P||Q alpha 1.5  conj 0.6972553 adaptive 0.6979706 gain +7.153e-04  SAME on [-12.0, -1.2599999999999998]
+s 1.00 P||Q alpha 2    conj 0.9514580 adaptive 0.9521256 gain +6.676e-04  SAME on [-12.0, -1.459999999999999]
+s 1.00 P||Q alpha 3    conj 1.4701620 adaptive 1.4705108 gain +3.488e-04  SAME on [-12.0, -1.8599999999999994]
+renyi_alpha_grid.py:21: RuntimeWarning: overflow encountered in power
+  f = np.where(p > 0, p * np.log(p / q), 0.0) if a == 1 else p ** a * q ** (1 - a)
+s 1.00 P||Q alpha 5    conj 2.4940383 adaptive 2.4940589 gain +2.063e-05  SAME on [-12.0, -2.799999999999999]
+_function_base_impl.py:5036: RuntimeWarning: overflow encountered in add
+  ret = (d * (y[tuple(slice1)] + y[tuple(slice2)]) / 2.0).sum(axis)
+renyi_alpha_grid.py:30: RuntimeWarning: invalid value encountered in scalar subtract
+  out[key] = dict(conj=dc, adaptive=dd, gain=dd - dc, same_on=[float(win.min()), float(win.max())] if len(win) else None)
+renyi_alpha_grid.py:31: RuntimeWarning: invalid value encountered in scalar subtract
+  print("s %.2f %s alpha %-4g conj %.7f adaptive %.7f gain %+.3e  SAME on %s" % (s, "Q||P" if rev else "P||Q", a, dc, dd, dd - dc,
+s 1.00 P||Q alpha 10   conj inf adaptive inf gain +nan  SAME on None
+s 1.00 Q||P alpha 1    conj 0.4234982 adaptive 0.4244150 gain +9.168e-04  SAME on [-11.94, -0.6400000000000006]
+s 1.00 Q||P alpha 1.5  conj 0.6146642 adaptive 0.6164878 gain +1.824e-03  SAME on [-12.0, -0.379999999999999]
+s 1.00 Q||P alpha 2    conj 0.7941883 adaptive 0.7982539 gain +4.066e-03  SAME on [-12.0, -0.019999999999999574]
+s 1.00 Q||P alpha 3    conj 1.1263270 adaptive 1.1690072 gain +4.268e-02  SAME on [-12.0, 1.1400000000000006]
+s 1.00 Q||P alpha 5    conj 1.7252811 adaptive 2.1827309 gain +4.574e-01  SAME on [-12.0, 3.34]
+s 1.00 Q||P alpha 10   conj inf adaptive inf gain +nan  SAME on [-10.82, 3.9399999999999995]

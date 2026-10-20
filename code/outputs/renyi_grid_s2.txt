@@ -1,0 +1,6 @@
+s 2.00 P||Q alpha 1    conj 0.0866760 adaptive 0.0884967 gain +1.821e-03  SAME on [-22.0, -1.0266666666666673]
+s 2.00 P||Q alpha 2    conj 0.1797303 adaptive 0.1833022 gain +3.572e-03  SAME on [-22.0, -1.466666666666665]
+s 2.00 P||Q alpha 3    conj 0.2808511 adaptive 0.2859973 gain +5.146e-03  SAME on [-22.0, -1.870000000000001]
+s 2.00 Q||P alpha 1    conj 0.0840144 adaptive 0.0858938 gain +1.879e-03  SAME on [-22.0, -0.5500000000000007]
+s 2.00 Q||P alpha 2    conj 0.1636089 adaptive 0.1676694 gain +4.060e-03  SAME on [-22.0, -0.03666666666666529]
+s 2.00 Q||P alpha 3    conj 0.2398934 adaptive 0.2470019 gain +7.109e-03  SAME on [-22.0, 0.586666666666666]

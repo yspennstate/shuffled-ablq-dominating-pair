@@ -1,0 +1,6 @@
+ball 0 [-3.01000, -3.00950] diff in [0.002 +/- 4.44e-4]
+ball 10 [-3.00500, -3.00450] diff in [0.002 +/- 4.42e-4]
+ball 20 [-3.00000, -2.99950] diff in [0.002 +/- 4.39e-4]
+ball 30 [-2.99500, -2.99450] diff in [0.002 +/- 4.37e-4]
+CERTIFIED sigma 2 alpha 2 PQ: J_SAME - J_ANTI > 0 on all of [-3.01, -2.99] (40 balls); min lower end [0.0015562 +/- 3.47e-8]
+so int J(adaptive) - int J(pair) >= [3.12221e-5 +/- 1.18e-11] at sigma 2, T 2, order 2, PQ (rigorous)

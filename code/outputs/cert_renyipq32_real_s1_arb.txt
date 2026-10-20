@@ -1,0 +1,10 @@
+ball 0 [-1.51000, -1.50975] diff in [+/- 7.20e-4]
+ball 10 [-1.50750, -1.50725] diff in [+/- 7.18e-4]
+ball 20 [-1.50500, -1.50475] diff in [+/- 7.16e-4]
+ball 30 [-1.50250, -1.50225] diff in [+/- 7.14e-4]
+ball 40 [-1.50000, -1.49975] diff in [+/- 7.12e-4]
+ball 50 [-1.49750, -1.49725] diff in [+/- 7.10e-4]
+ball 60 [-1.49500, -1.49475] diff in [+/- 7.08e-4]
+ball 70 [-1.49250, -1.49225] diff in [+/- 7.05e-4]
+CERTIFIED sigma 1 alpha 3/2 PQ: J_SAME - J_ANTI > 0 on all of [-1.51, -1.49] (80 balls); min lower end [0.00045372 +/- 4.88e-9]
+so int J(adaptive) - int J(pair) >= [9.20947e-6 +/- 3.00e-12] at sigma 1, T 2, order 3/2, PQ (rigorous)

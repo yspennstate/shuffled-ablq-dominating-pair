@@ -1,0 +1,14 @@
+== R1 R2 n1 n2 = 16 22 1601 9001
+s 1.00 P||Q alpha 2    conj 0.9514580 adaptive 0.9521256 gain +6.676e-04  SAME on [-15.86, -1.459999999999999]
+s 1.00 P||Q alpha 3    conj 1.4701620 adaptive 1.4705108 gain +3.488e-04  SAME on [-15.96, -1.8599999999999994]
+s 1.00 P||Q alpha 5    conj 2.4940383 adaptive 2.4940589 gain +2.063e-05  SAME on [-16.0, -2.799999999999999]
+s 1.00 Q||P alpha 2    conj 0.7941883 adaptive 0.7982539 gain +4.066e-03  SAME on [-16.0, -0.019999999999999574]
+s 1.00 Q||P alpha 3    conj 1.1263270 adaptive 1.1690072 gain +4.268e-02  SAME on [-15.94, 1.1400000000000006]
+s 1.00 Q||P alpha 5    conj 1.7252811 adaptive 2.1827309 gain +4.574e-01  SAME on [-15.96, 3.34]
+== R1 R2 n1 n2 = 24 32 2401 13001
+s 1.00 P||Q alpha 2    conj 0.9514580 adaptive 0.9521256 gain +6.676e-04  SAME on [-23.96, -1.4600000000000009]
+s 1.00 P||Q alpha 3    conj 1.4701620 adaptive 1.4705108 gain +3.488e-04  SAME on [-23.0, -1.8599999999999994]
+s 1.00 P||Q alpha 5    conj 2.4940383 adaptive 2.4940589 gain +2.063e-05  SAME on [-18.1, -2.8000000000000007]
+s 1.00 Q||P alpha 2    conj 0.7941883 adaptive 0.7982539 gain +4.066e-03  SAME on [-23.92, -0.019999999999999574]
+s 1.00 Q||P alpha 3    conj 1.1263270 adaptive 1.1690072 gain +4.268e-02  SAME on [-22.1, 1.1400000000000006]
+s 1.00 Q||P alpha 5    conj 1.7252811 adaptive 2.1827309 gain +4.574e-01  SAME on [-16.740000000000002, 18.1]

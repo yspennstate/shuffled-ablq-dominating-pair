@@ -1,0 +1,15 @@
+sigma 0.500 eps 0.10 conj 0.665715 adaptive 0.665971 at a1,v1,rev=(1.0, -1.0, False) ratio 1.0004
+sigma 0.500 eps 0.50 conj 0.598415 adaptive 0.598660 at a1,v1,rev=(-1.0, 1.0, False) ratio 1.0004
+sigma 0.500 eps 1.00 conj 0.509500 adaptive 0.509303 at a1,v1,rev=(1.0, -1.0, False) ratio 0.9996
+sigma 0.500 eps 2.00 conj 0.331840 adaptive 0.331621 at a1,v1,rev=(-1.0, 1.0, False) ratio 0.9993
+sigma 0.500 eps 3.00 conj 0.183814 adaptive 0.183812 at a1,v1,rev=(-1.0, 1.0, False) ratio 1.0000
+sigma 1.000 eps 0.10 conj 0.330806 adaptive 0.334049 at a1,v1,rev=(1.0, -1.0, False) ratio 1.0098
+sigma 1.000 eps 0.50 conj 0.221273 adaptive 0.223264 at a1,v1,rev=(-1.0, 1.0, False) ratio 1.0090
+sigma 1.000 eps 1.00 conj 0.117217 adaptive 0.117978 at a1,v1,rev=(-1.0, 1.0, False) ratio 1.0065
+sigma 1.000 eps 2.00 conj 0.019620 adaptive 0.019662 at a1,v1,rev=(1.0, -1.0, False) ratio 1.0021
+sigma 1.000 eps 3.00 conj 0.001477 adaptive 0.001479 at a1,v1,rev=(1.0, -1.0, False) ratio 1.0014
+sigma 2.000 eps 0.10 conj 0.124917 adaptive 0.129577 at a1,v1,rev=(1.0, -1.0, False) ratio 1.0373
+sigma 2.000 eps 0.50 conj 0.033324 adaptive 0.035293 at a1,v1,rev=(1.0, -1.0, False) ratio 1.0591
+sigma 2.000 eps 1.00 conj 0.003631 adaptive 0.003828 at a1,v1,rev=(1.0, -1.0, False) ratio 1.0542
+sigma 2.000 eps 2.00 conj 0.000005 adaptive 0.000005 at a1,v1,rev=(1.0, -1.0, False) ratio 1.0146
+sigma 2.000 eps 3.00 conj 0.000000 adaptive 0.000000 at a1,v1,rev=(1.0, -1.0, False) ratio 1.0021

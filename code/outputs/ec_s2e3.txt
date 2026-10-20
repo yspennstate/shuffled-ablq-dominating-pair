@@ -1,0 +1,1 @@
+s 2 eps 3 | conj fwd 2.34886592 rev 4.81351360 | gain fwd 5.21617613 rev 9.40538702 | gap over max 5.216176137e-13 | SAME on [(-inf, -12.508008742617037)]

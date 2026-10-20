@@ -1,0 +1,9 @@
+sigma 1.00 P||Q chi2 conj 1.589482 adaptive 1.591212 gain +1.729e-03 SAME wins on (-12.0, -1.4499999999999993)
+sigma 1.00 Q||P chi2 conj 1.212644 adaptive 1.221661 gain +9.017e-03 SAME wins on (-12.0, 0.0)
+sigma 0.50 P||Q chi2 conj 53.584066 adaptive 53.584066 gain +1.129e-07 SAME wins on (-4.654999999999999, -1.7208333333333332)
+sigma 0.50 Q||P chi2 conj 36.995136 adaptive 37.004820 gain +9.685e-03 SAME wins on (-5.244166666666667, -0.005833333333333357)
+sigma 2.00 P||Q chi2 conj 0.196894 adaptive 0.201177 gain +4.283e-03 SAME wins on (-22.0, 18.645000000000003)
+sigma 2.00 Q||P chi2 conj 0.177754 adaptive 0.182546 gain +4.792e-03 SAME wins on (-22.0, -0.018333333333334423)
+chi2_adaptive.py:36: RuntimeWarning: overflow encountered in cosh
+  Esech = integrate.quad(lambda w: norm.pdf(w, 0, np.sqrt(.5)) / np.cosh(w), -np.inf, np.inf)[0]
+control (van Dijk-Ertan closed form) chi2(P_S||Q_S) at sigma 1 = 1.589482
