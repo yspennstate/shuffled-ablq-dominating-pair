@@ -1,0 +1,13 @@
+Python 3.12.14 python-flint 0.9.0
+PASS: four source SHA256 hashes match published manifest at 6d3a625a0f4cfeecb5dac3467ed7570bf7c7a597
+PASS: T2 exact endpoint coverage, all 5000 lower bounds positive; gain > 0.000104
+PASS: negative control z1=1.7, same-minus-anti = [-0.00995935560886641 +/- 4.74e-18]
+PASS: T3 endpoint coverage on 82312 one-dimensional balls; 33367 leaf boxes
+T3 summed gain lower endpoint: [2.8408182291354227666e-5 +/- 5.28e-26]
+PASS: independent T2 point quadrature (0.06357796524530177, 7.07037580588223e-16) (0.06415608792541296, 4.4887074533086585e-15)
+PASS: independent T3 point difference 0.001535260930046847
+All-T ratio at y2-y1 = 2.1 : 0.8056105903987492
+All-T ratio at y2-y1 = 2.6 : 0.8712834016484531
+C+1 at y=2: 1.0
+C+1 roots: [0.17599546062345475, 1.8240045393765454]
+ALL REVIEW CHECKS PASSED

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-22",
+  "claim": "Chua et al. (ICML 2024), Conjecture 3.2, shuffled ABLQ dominating pair",
+  "claim_status": "RESOLVED_BY_REFUTATION_INDEPENDENT_AI_REVIEW_PASS",
+  "peer_review_status": "NOT_ESTABLISHED",
+  "reviewer": "codex:t353-independent-review-20261022",
+  "source_repository": "yspennstate/shuffled-ablq-dominating-pair",
+  "source_commit": "6d3a625a0f4cfeecb5dac3467ed7570bf7c7a597",
+  "reviewed_scope": [
+    "Main theorem at sigma=1, epsilon=1/2, every T>=2, b>=1, d>=1",
+    "T2 lower bound > 0.000104",
+    "T3 lower bound > 0.0000225"
+  ],
+  "outside_review_scope": [
+    "KL and Renyi certificates and tables",
+    "Full numerical optimization claims",
+    "Exhaustive novelty or priority",
+    "Human peer review",
+    "Broader tight privacy accountant"
+  ],
+  "reviewer_extension": "Analytic proof for every sigma>0 and finite epsilon, parameter-dependent switch set; separately awaiting independent review",
+  "dependencies": {
+    "python": "3.12.14",
+    "python-flint": "0.9.0",
+    "mpmath": "1.3.0",
+    "scipy": "1.17.0",
+    "numpy": "2.3.5"
+  },
+  "t2_command": "python source/code/cert_t2_arb.py -1.6 -1.1 5000",
+  "t3_command": "python source/code/cert_t3_arb.py -0.1 0.3 2.2 2.3 200 50 14",
+  "checks_command": "python review_checks.py",
+  "source_hashes": {
+    "code/cert_t2_arb.py": "85bcd911b9a2061d7db4a27be8f9cecf8b179e83a3f4c82194e239b75be80bd4",
+    "code/cert_t3_arb.py": "64d7b783be6f898cd6cb606278b0bb4664d371430eff0589078b9905e621beeb",
+    "code/independent_check.py": "586c5020867cd2dec904fce4b18f4b70969324d51dfd2cb73d9121bac0197fc1",
+    "paper/main.tex": "bf54d1eb16263af5386c54f4fe4e7eaf358040d6d9a596b285c21e92dce14eb2"
+  },
+  "review_file_hashes": {
+    "ANALYTIC_PROOF.md": "6764bae1d83b6b4111e7ef3216204f935d03d195530b2e21f0183638b8ce5049",
+    "REVIEW.md": "e1828d2a507ce6cb4cec7dcb1f7f7f7b53764d6f6265760d504dcfd1ddeb1797",
+    "REVIEW_CHECKS.txt": "29f02b1c06bc81b9ebb2f5083c27ae03e553da97116f1d5bf25fbfc920d1b51c",
+    "replay_t2.txt": "728ffee0d34e65137f315aca5bbc82478cbaf66c66603146aa2933215115540b",
+    "replay_t3_fine.txt": "4e2256984fbda7ce167fdca5adf06947323af60fd305cee9dd3175930ad5defd",
+    "review_checks.py": "ff1cf8a8daccd7c3e77bcbb626fe811911c17bf8793839b9520af35737742c50",
+    "source/code/cert_t2_arb.py": "85bcd911b9a2061d7db4a27be8f9cecf8b179e83a3f4c82194e239b75be80bd4",
+    "source/code/cert_t3_arb.py": "64d7b783be6f898cd6cb606278b0bb4664d371430eff0589078b9905e621beeb",
+    "source/code/independent_check.py": "586c5020867cd2dec904fce4b18f4b70969324d51dfd2cb73d9121bac0197fc1",
+    "source/paper/main.tex": "bf54d1eb16263af5386c54f4fe4e7eaf358040d6d9a596b285c21e92dce14eb2"
+  },
+  "corrected_manuscript_date": "2026-10-22",
+  "corrected_source_sha256": "5dade15ed5e51b5b90fce3eb10540cdec1278a78fe83d8554f8f9e2b06c83b35",
+  "corrected_pdf_sha256": "d45349168de59d5a35e60f0819b0855efac241f93e41bf40396f15870ba0aafd",
+  "pdf_pages": 8,
+  "pdf_validation": "All eight final pages visually inspected; no unresolved references or overfull boxes; main theorem kept together."
+}
