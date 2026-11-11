@@ -55,7 +55,7 @@ which is realised by a non-adaptive query method and so gives lower bounds on th
 The pair $(P_{\mathcal S},Q_{\mathcal S})$ tightly dominates $\mathrm{ABLQ}_{\mathcal S}$ for all adaptive query methods $\mathcal A$.
 \end{conjecture}
 
-The conjecture is restated as open by van Dijk and Ertan~\cite[Appendix~J]{vDE26}, who show that the smaller pair $(\N(0,I),\frac1M\sum_j\N(e_j,I))$ does not dominate the shuffled mechanism; their example is non-adaptive and does not bear on \cref{conj:CGKKMSZ}. Random allocation, a different sampler that also fixes how many steps each record takes part in, is analysed by Feldman and Shenfeld~\cite{FS25}.
+The conjecture is restated as open by van Dijk and Ertan~\cite[Appendix~J]{vDE26}, who show that the smaller pair $(\N(0,I),\frac1M\sum_j\N(e_j,I))$ does not dominate the shuffled mechanism; their example is non-adaptive and does not bear on \cref{conj:CGKKMSZ}. Random allocation, a different sampler that also fixes how many steps each record takes part in, is analysed by Feldman and Shenfeld~\cite{FS25}. Lower bounds for shuffled batches over several epochs are given by the same authors in~\cite{CGKKMSZ24b}, and for a single shuffled epoch Ertan and van Dijk~\cite{EvD26} bound the trade-off curve in the $f$-differential privacy framework.
 
 We show that \cref{conj:CGKKMSZ} is false.
 
@@ -328,6 +328,8 @@ The paper is part of the Math Brain project, whose public repository is \url{htt
 
 \begin{thebibliography}{9}
 \bibitem{CGKKMSZ24} L.~Chua, B.~Ghazi, P.~Kamath, R.~Kumar, P.~Manurangsi, A.~Sinha and C.~Zhang, \emph{How private are DP-SGD implementations?}, Proceedings of the 41st International Conference on Machine Learning (ICML 2024); arXiv:2403.17673.
+\bibitem{CGKKMSZ24b} L.~Chua, B.~Ghazi, P.~Kamath, R.~Kumar, P.~Manurangsi, A.~Sinha and C.~Zhang, \emph{Scalable DP-SGD: shuffling vs.\ Poisson subsampling}, Advances in Neural Information Processing Systems 37 (NeurIPS 2024); arXiv:2411.04205.
+\bibitem{EvD26} M.~B.~Ertan and M.~van Dijk, \emph{Fundamental limitations of favorable privacy-utility guarantees for DP-SGD}, ACM Conference on Computer and Communications Security (CCS 2026), to appear; arXiv:2601.10237.
 \bibitem{FS25} V.~Feldman and M.~Shenfeld, \emph{Privacy amplification by random allocation}, arXiv:2502.08202 (2025).
 \bibitem{Joh17} F.~Johansson, \emph{Arb: efficient arbitrary-precision midpoint-radius interval arithmetic}, IEEE Trans. Comput. \textbf{66} (2017), 1281--1292.
 \bibitem{vDE26} M.~van Dijk and M.~B.~Ertan, \emph{Trade-off functions for DP-SGD with subsampling based on random allocation: tight upper and lower bounds}, arXiv:2605.06259v3 (2026).
