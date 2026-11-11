@@ -45,7 +45,7 @@ Chua, Ghazi, Kamath, Kumar, Manurangsi, Sinha and Zhang conjectured that the pai
 
 \section{Introduction}
 
-DP-SGD is usually analysed as if every batch were drawn by Poisson subsampling, while implementations mostly shuffle the data and cut it into batches of a fixed size. Chua, Ghazi, Kamath, Kumar, Manurangsi, Sinha and Zhang~\cite{CGKKMSZ24} studied the gap between the two through the adaptive batch linear query mechanism $\mathrm{ABLQ}$, which isolates what the gradient steps release. For Poisson subsampling and for the deterministic batch sampler the worst case over adaptive query methods is known exactly. For the shuffle sampler $\mathcal S$ they gave the pair
+DP-SGD, introduced by Abadi et al.~\cite{Aba16}, is usually analysed as if every batch were drawn by Poisson subsampling, while implementations mostly shuffle the data and cut it into batches of a fixed size. Chua, Ghazi, Kamath, Kumar, Manurangsi, Sinha and Zhang~\cite{CGKKMSZ24} studied the gap between the two through the adaptive batch linear query mechanism $\mathrm{ABLQ}$, which isolates what the gradient steps release. For Poisson subsampling and for the deterministic batch sampler the worst case over adaptive query methods is known exactly. For the shuffle sampler $\mathcal S$ they gave the pair
 \begin{equation}\label{eq:pair}
 P_{\mathcal S}=\frac1T\sum_{t=1}^T\N(2e_t,\sigma^2I_T),\qquad Q_{\mathcal S}=\frac1T\sum_{t=1}^T\N(e_t,\sigma^2I_T),
 \end{equation}
@@ -83,7 +83,7 @@ g_t=\sum_{i\in S_t}\psi_t(x_i)+\xi_t,\qquad \xi_t\sim\N(0,\sigma^2I_d)\ \text{in
 \]
 $\mathrm{ABLQ}_{\mathcal S}(x)$ is the law of $(g_1,\dots,g_T)$. Datasets are zero-out adjacent, $x\to_z x'$, if they agree except at one index $i$, where $x_i\in\mathcal X$ and $x'_i=\bot$.
 
-For $\gamma\ge0$ the hockey-stick divergence of probability measures with densities $p,q$ is $H_\gamma(P\|Q)=\int(p-\gamma q)_+$. Following~\cite[Definition~2.3]{CGKKMSZ24}, a pair $(P,Q)$ dominates a pair $(A,B)$ if $\He(P\|Q)\ge\He(A\|B)$ for all $\varepsilon\in\R$; it dominates a mechanism $M$ if it dominates $(M(x),M(x'))$ for all $x\to_z x'$, and it does so tightly if in addition it is dominated by $(M(x),M(x'))$ for some such pair. To refute \cref{conj:CGKKMSZ} it suffices to exhibit one $\mathcal A$, one adjacent pair and one $\varepsilon$ with $\He(M(x)\|M(x'))>\He(P_{\mathcal S}\|Q_{\mathcal S})$.
+For $\gamma\ge0$ the hockey-stick divergence of probability measures with densities $p,q$ is $H_\gamma(P\|Q)=\int(p-\gamma q)_+$. Following~\cite[Definition~2.3]{CGKKMSZ24} (dominating pairs are due to Zhu, Dong and Wang~\cite{ZDW21}), a pair $(P,Q)$ dominates a pair $(A,B)$ if $\He(P\|Q)\ge\He(A\|B)$ for all $\varepsilon\in\R$; it dominates a mechanism $M$ if it dominates $(M(x),M(x'))$ for all $x\to_z x'$, and it does so tightly if in addition it is dominated by $(M(x),M(x'))$ for some such pair. To refute \cref{conj:CGKKMSZ} it suffices to exhibit one $\mathcal A$, one adjacent pair and one $\varepsilon$ with $\He(M(x)\|M(x'))>\He(P_{\mathcal S}\|Q_{\mathcal S})$.
 
 \subsection{The datasets and the two queries}
 We work with $d=1$; for $d>1$ put the queries on the first coordinate and the others carry pure noise. Let $\mathcal X=\{u,w\}$, let $x$ have $x_1=u$ and $x_j=w$ for $j\ge2$, and let $x'$ have $x'_1=\bot$ and $x'_j=w$ for $j\ge2$. Two queries are used:
@@ -327,7 +327,8 @@ No data were used. The code is available at\\ \url{https://github.com/yspennstat
 The paper is part of the Math Brain project, whose public repository is \url{https://github.com/yspennstate/math-brain-public}~\cite{MathBrainRepo}.
 
 \begin{thebibliography}{9}
-\bibitem{CGKKMSZ24} L.~Chua, B.~Ghazi, P.~Kamath, R.~Kumar, P.~Manurangsi, A.~Sinha and C.~Zhang, \emph{How private are DP-SGD implementations?}, Proceedings of the 41st International Conference on Machine Learning (ICML 2024); arXiv:2403.17673.
+\bibitem{Aba16} M.~Abadi, A.~Chu, I.~Goodfellow, H.~B.~McMahan, I.~Mironov, K.~Talwar and L.~Zhang, \emph{Deep learning with differential privacy}, Proceedings of the 2016 ACM SIGSAC Conference on Computer and Communications Security (CCS 2016), 308--318.
+\bibitem{CGKKMSZ24}L.~Chua, B.~Ghazi, P.~Kamath, R.~Kumar, P.~Manurangsi, A.~Sinha and C.~Zhang, \emph{How private are DP-SGD implementations?}, Proceedings of the 41st International Conference on Machine Learning (ICML 2024); arXiv:2403.17673.
 \bibitem{CGKKMSZ24b} L.~Chua, B.~Ghazi, P.~Kamath, R.~Kumar, P.~Manurangsi, A.~Sinha and C.~Zhang, \emph{Scalable DP-SGD: shuffling vs.\ Poisson subsampling}, Advances in Neural Information Processing Systems 37 (NeurIPS 2024); arXiv:2411.04205.
 \bibitem{EvD26} M.~B.~Ertan and M.~van Dijk, \emph{Fundamental limitations of favorable privacy-utility guarantees for DP-SGD}, ACM Conference on Computer and Communications Security (CCS 2026), to appear; arXiv:2601.10237.
 \bibitem{FS25} V.~Feldman and M.~Shenfeld, \emph{Privacy amplification by random allocation}, arXiv:2502.08202 (2025).
@@ -340,6 +341,7 @@ The paper is part of the Math Brain project, whose public repository is \url{htt
 
 \bibitem{BrainFramework} Y.~Shmalo, \emph{Brain Framework}, public software repository, 2026, \url{https://github.com/yspennstate/brain-framework-public}.
 
+\bibitem{ZDW21} Y.~Zhu, J.~Dong and Y.-X.~Wang, \emph{Optimal accounting of differential privacy via characteristic function}, arXiv:2106.08567.
 \end{thebibliography}
 
 \end{document}
