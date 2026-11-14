@@ -195,7 +195,7 @@ an interval condition on the roots of a quadratic in $\tau$; for $I_{\SAME}$ the
 \[
 I_{\ANTI}=0.0635779652453,\qquad I_{\SAME}=0.0641560879254,
 \]
-and the difference $5.78\cdot10^{-4}$ is positive. The numerical grid detects a transition near $z_1=2.005$. There is no finite upper cutoff: the analytic argument in \cref{sec:analytic} proves $I_{\SAME}>I_{\ANTI}$ at every $z_1\ge3$. Thus a finite grid endpoint must not be interpreted as the boundary of the improvement set.
+and the difference $5.78\cdot10^{-4}$ is positive. The two integrals coincide at $z_1=2$: there $\alpha=\sqrt e\,\gamma$, the integrand of $I_{\ANTI}$ is positive exactly on $s>2$ and that of $I_{\SAME}$ exactly on $s>0$, and both integrals equal $\beta\bigl(\frac12-\sqrt e\,(1-\Phi(1))\bigr)$, where $\Phi$ is the standard normal distribution function. Numerically $I_{\SAME}-I_{\ANTI}$ is negative just below $z_1=2$ and positive just above it. There is no finite upper cutoff: the analytic argument in \cref{sec:analytic} proves $I_{\SAME}>I_{\ANTI}$ at every $z_1\ge3$. Thus a finite grid endpoint must not be interpreted as the boundary of the improvement set.
 
 \begin{theorem}\label{thm:T2}
 At $T=2$, $\sigma=1$, $\varepsilon=\frac12$ and every batch size, the method $\mathcal A_S$ with $S=[2.1,2.6]$ satisfies
